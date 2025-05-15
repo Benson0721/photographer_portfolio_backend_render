@@ -51,6 +51,7 @@ cloudinary.config({
 
 const app = express();
 const port = process.env.PORT || 5000;
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: "https://photographer-portfolio-frontend-vercel.vercel.app",
@@ -69,7 +70,7 @@ const sessionConfig = {
     httpOnly: true,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     secure: process.env.NODE_ENV === "production",
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
