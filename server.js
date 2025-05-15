@@ -51,6 +51,13 @@ cloudinary.config({
 
 const app = express();
 const port = process.env.PORT || 5000;
+app.use(
+  cors({
+    origin: "https://photographer-portfolio-frontend-vercel.vercel.app",
+    credentials: true,
+  })
+);
+
 const sessionConfig = {
   store,
   name: "session",
@@ -60,7 +67,8 @@ const sessionConfig = {
   unset: "destroy",
   cookie: {
     httpOnly: true,
-    secure: false,
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    secure: process.env.NODE_ENV === "production",
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
@@ -74,12 +82,6 @@ app.use(passport.session());
 
 passport.use(new LocalStrategy(User.authenticate()));
 
-app.use(
-  cors({
-    origin: "https://photographer-portfolio-frontend-vercel.vercel.app",
-    credentials: true,
-  })
-);
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
