@@ -76,7 +76,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 app.use(
   cors({
-    origin: "https://photographer-portfolio-frontend-vercel.vercel.app/",
+    origin: "https://photographer-portfolio-frontend-vercel.vercel.app",
     credentials: true,
   })
 );
