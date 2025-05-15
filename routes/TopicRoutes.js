@@ -4,7 +4,7 @@ import {
   addTopicImage,
   updateTopicImage,
   deleteTopicImage,
-} from "../controllers/portfolioApi/topic-Api.js";
+} from "../controllers/portfolioApi/topic-api.js";
 import {
   getFrontImages,
   updateFrontImage,
