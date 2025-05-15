@@ -3,9 +3,7 @@ import { PortfolioFrontImage } from "../../models/PortfolioFrontImageSchema.js";
 export const getFrontImages = async (req, res) => {
   try {
     const { category } = req.query;
-    console.log(category);
     const frontImage = await PortfolioFrontImage.find({ category: category });
-    console.log(frontImage);
     if (!frontImage) {
       return res.status(404).json({ message: "No images found" });
     }
