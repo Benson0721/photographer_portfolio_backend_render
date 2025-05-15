@@ -29,7 +29,7 @@ router.post("/login", (req, res, next) => {
     req.login(user, (err) => {
       if (err) return next(err);
 
-      res.json({ isAuthenticated: true, user });
+      return res.status(200).json(user);
     });
   })(req, res, next);
 });
