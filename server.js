@@ -19,7 +19,7 @@ import cloudinary from "cloudinary";
 import cron from "node-cron";
 import { clearUploadsFolder } from "./utils/clearUploads.js";
 import { connectToDB } from "./mongoDB.js";
-
+import cors from "cors";
 // 獲取當前檔案的路徑
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,6 +73,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy(User.authenticate()));
+
+app.use(
+  cors({
+    origin: "https://photographer-portfolio-frontend-vercel.vercel.app/",
+    credentials: true,
+  })
+);
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
