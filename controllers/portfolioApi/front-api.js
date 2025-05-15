@@ -2,12 +2,11 @@ import { PortfolioFrontImage } from "../../models/PortfolioFrontImageSchema.js";
 
 export const getFrontImages = async (req, res) => {
   try {
-    const { category } = req.query;
-    const frontImage = await PortfolioFrontImage.find({ category: category });
-    if (!frontImage) {
+    const frontImages = await PortfolioFrontImage.find({});
+    if (!frontImages) {
       return res.status(404).json({ message: "No images found" });
     }
-    res.json({ frontImage });
+    res.json({ frontImages });
     return;
   } catch (error) {
     res.status(500).json({ message: error.message });

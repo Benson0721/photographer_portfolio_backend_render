@@ -101,6 +101,11 @@ routes.forEach(({ path, router }) => {
   app.use(prefix + path, router);
 });
 
+app.get("/wakeup", (req, res) => {
+  console.log("Allright...I have wake up...");
+  res.send("Allright...I have wake up...");
+});
+
 cron.schedule("0 * * * *", async () => {
   console.log("每日清空 uploads 資料夾...");
   await clearUploadsFolder();
