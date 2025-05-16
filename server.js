@@ -52,9 +52,22 @@ cloudinary.config({
 const app = express();
 const port = process.env.PORT || 5000;
 app.set("trust proxy", 1);
+
+const whiteList = [
+  "https://photographer-portfolio-frontend-vercel.vercel.app",
+  "https://photographer-portfolio-frontend-vercel-utils.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "https://photographer-portfolio-frontend-vercel.vercel.app",
+    origin: function (origin, callback) {
+      // 多網址
+      if (!origin || whiteList.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
