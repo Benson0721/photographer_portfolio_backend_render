@@ -52,7 +52,7 @@ export const updateSectionName = async (req, res) => {
   try {
     const { title, id } = req.body;
     await SectionImage.findByIdAndUpdate(id, { title }, { new: true });
-    res.status(200).json({ message: "更改 Section 名稱成功!" });
+    res.status(200).json({ message: "更改標題成功!" });
   } catch (error) {
     res.status(500).json({ message: error.message || "名稱更新失敗" });
   }

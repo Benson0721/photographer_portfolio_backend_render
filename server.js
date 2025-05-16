@@ -56,6 +56,7 @@ app.set("trust proxy", 1);
 const whiteList = [
   "https://photographer-portfolio-frontend-vercel.vercel.app",
   "https://photographer-portfolio-frontend-vercel-utils.vercel.app",
+  "http://localhost:5173",
 ];
 
 app.use(

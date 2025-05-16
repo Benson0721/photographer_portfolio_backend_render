@@ -1,6 +1,7 @@
 import { DisplayImage } from "../../models/DisplayImageSchema.js";
 import { addImages, deleteImages } from "../cloudinaryApi/img-api.js";
 
+
 export const getDisplayImages = async (req, res) => {
   try {
     const { topicID } = req.query;

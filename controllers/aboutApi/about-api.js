@@ -12,9 +12,6 @@ export const getAboutImages = async (req, res) => {
 
 export const updateAboutImage = async (req, res) => {
   try {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
     const { folder1 } = req.params;
     const { publicID, id } = req.query;
     const filepath = req.file.path;
@@ -36,28 +33,8 @@ export const updateAboutImage = async (req, res) => {
       },
       { new: true }
     );
+    console.log("更新圖片成功!");
     res.status(200).json({ message: "更新圖片成功!" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const adjustOffsetY = async (req, res) => {
-  try {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-    const { id, offsetY } = req.body;
-
-    await AboutImage.findByIdAndUpdate(
-      id,
-      {
-        offsetY: offsetY,
-      },
-      { new: true }
-    );
-    res.status(200).json({ message: "調整成功!" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });

@@ -20,4 +20,8 @@ const DisplayImageSchema = new Schema({
   },
 });
 
+DisplayImageSchema.pre("find", function () {
+  this.sort({ createdAt: -1 });//-1代表由
+});
+
 export const DisplayImage = mongoose.model("DisplayImage", DisplayImageSchema);

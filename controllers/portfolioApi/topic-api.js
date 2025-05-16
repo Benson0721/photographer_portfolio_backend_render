@@ -78,11 +78,11 @@ export const updateTopicImage = async (req, res) => {
       updateData.imageURL = imageData.secure_url;
     }
 
-    const updatedImage = await TopicImage.findByIdAndUpdate(id, updateData, {
+    await TopicImage.findByIdAndUpdate(id, updateData, {
       new: true,
     });
 
-    res.status(200).json({ message: "更新資料成功!", updatedImage });
+    res.status(200).json({ message: "更新資料成功!" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -92,8 +92,8 @@ export const deleteTopicImage = async (req, res) => {
   try {
     const { publicId, id } = req.query;
     await deleteImages(publicId);
-    const deletedTopicImage = await TopicImage.findByIdAndDelete(id);
-    res.json({ deletedTopicImage });
+    await TopicImage.findByIdAndDelete(id);
+    res.json({ message: "刪除成功!" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
