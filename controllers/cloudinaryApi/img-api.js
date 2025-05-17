@@ -1,4 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
+import dotenv from "dotenv";
+dotenv.config();
+
+const CLOUDINARYFOLDER = process.env.CLOUDINARYFOLDER;
 
 export const updateImage = async (
   folder1,
@@ -8,8 +12,8 @@ export const updateImage = async (
 ) => {
   try {
     const folderPath = folder2
-      ? `Photographer/views/${folder1}/${folder2}`
-      : `Photographer/views/${folder1}`;
+      ? `${CLOUDINARYFOLDER}/views/${folder1}/${folder2}`
+      : `${CLOUDINARYFOLDER}/views/${folder1}`;
     const options = {
       folder: folderPath,
       resource_type: "image",
@@ -31,7 +35,7 @@ export const updateImage = async (
 export const addImages = async (folder1, folder2 = "", filePath) => {
   try {
     const options = {
-      folder: `Photographer/views/${folder1}/${folder2}`,
+      folder: `${CLOUDINARYFOLDER}/views/${folder1}/${folder2}`,
       resource_type: "image",
     };
     if (!Array.isArray(filePath)) {
