@@ -13,7 +13,7 @@ const router = express.Router();
 router.route("/name").patch(checkAuth, updateSectionName);
 
 router
-  .route("/:folder1/:folder2")
+  .route("/")
   .get(getSectionImages)
   .put(checkAuth, upload.single("image"), updateSectionImage)
   .patch(checkAuth, adjustOffsetY);

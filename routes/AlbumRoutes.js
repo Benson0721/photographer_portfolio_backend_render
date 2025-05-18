@@ -11,7 +11,7 @@ const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
 router
-  .route("/:folder1")
+  .route("/")
   .get(getAlbumImages)
   .post(checkAuth, upload.single("image"), addAlbumImage)
   .put(checkAuth, upload.single("image"), updateAlbumImage)

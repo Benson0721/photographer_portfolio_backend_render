@@ -16,10 +16,9 @@ export const addDisplayImages = async (req, res) => {
   try {
     const { topicID } = req.body;
     const parsedTopicID = JSON.parse(topicID);
-    const { folder1, folder2 = "" } = req.params;
     const files = req.files;
     const paths = files.map((file) => file.path);
-    const imageDatas = await addImages(folder1, folder2, paths);
+    const imageDatas = await addImages("portfolio", "display", paths);
     if (imageDatas.error) {
       return res.status(500).json({ message: imageDatas.error });
     }

@@ -9,7 +9,7 @@ const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
 router
-  .route("/:folder1")
+  .route("/")
   .get(getAboutImages)
   .put(checkAuth, upload.single("image"), updateAboutImage);
 export { router };

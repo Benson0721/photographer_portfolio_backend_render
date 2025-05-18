@@ -31,10 +31,9 @@ export const addAlbumImage = async (req, res) => {
   try {
     const { category, topic, notes } = req.query;
 
-    const { folder1 } = req.params;
     const filepath = req.file.path;
 
-    const imageData = await addImages(folder1, category, filepath);
+    const imageData = await addImages("portfolio", category, filepath);
     if (imageData.error) {
       return res.status(500).json({ message: imageData.error });
     }
@@ -56,7 +55,6 @@ export const updateAlbumImage = async (req, res) => {
     const { newData } = req.body;
     const parsedData = JSON.parse(newData);
     const { category, topic, notes, id, publicID } = parsedData;
-    const { folder1 } = req.params;
     const updateData = { category: category, topic: topic, notes: notes };
     if (req.file?.path) {
       const filepath = req.file.path;
@@ -66,7 +64,7 @@ export const updateAlbumImage = async (req, res) => {
       );
 
       const imageData = await updateImage(
-        folder1,
+        "portfolio",
         category,
         filepath,
         filterPublicID

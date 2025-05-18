@@ -9,7 +9,9 @@ import {
   SectionRoutes,
   AboutRoutes,
   DisplayRoutes,
-  TopicRoutes,
+  GalleryRoutes,
+  AlbumRoutes,
+  FrontRoutes,
 } from "./routes/routes.js";
 import passport from "passport";
 import express from "express";
@@ -108,7 +110,9 @@ const routes = [
   { path: "/section", router: SectionRoutes },
   { path: "/about", router: AboutRoutes },
   { path: "/display", router: DisplayRoutes },
-  { path: "/topic", router: TopicRoutes },
+  { path: "/gallery", router: GalleryRoutes },
+  { path: "/album", router: AlbumRoutes },
+  { path: "/front", router: FrontRoutes },
 ];
 
 routes.forEach(({ path, router }) => {

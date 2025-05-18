@@ -8,6 +8,8 @@ import {
 export const getGalleryImages = async (req, res) => {
   try {
     const { category } = req.query;
+    console.log("後端");
+    console.log(category);
     if (category) {
       const galleryImages = await GalleryImage.find({ category: category });
       if (!galleryImages) {
@@ -31,10 +33,9 @@ export const addGalleryImage = async (req, res) => {
   try {
     const { category, notes } = req.query;
 
-    const { folder1 } = req.params;
     const filepath = req.file.path;
 
-    const imageData = await addImages(folder1, category, filepath);
+    const imageData = await addImages("portfolio", category, filepath);
     if (imageData.error) {
       return res.status(500).json({ message: imageData.error });
     }
@@ -50,12 +51,11 @@ export const addGalleryImage = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-export const updateGalleryImage = async (req, res) => {
+/*export const updateGalleryImage = async (req, res) => {
   try {
     const { newData } = req.body;
     const parsedData = JSON.parse(newData);
     const { category, notes, id, publicID } = parsedData;
-    const { folder1 } = req.params;
     const updateData = { category: category, notes: notes };
     if (req.file?.path) {
       const filepath = req.file.path;
@@ -65,7 +65,7 @@ export const updateGalleryImage = async (req, res) => {
       );
 
       const imageData = await updateImage(
-        folder1,
+        "portfolio",
         category,
         filepath,
         filterPublicID
@@ -86,7 +86,7 @@ export const updateGalleryImage = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+*/
 export const deleteGalleryImage = async (req, res) => {
   try {
     const { publicId, id } = req.query;

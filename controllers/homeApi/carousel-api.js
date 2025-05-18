@@ -30,10 +30,9 @@ export const adjustCarouselOrder = async (req, res) => {
 
 export const addCarouselImage = async (req, res) => {
   try {
-    const { folder1, folder2 = "" } = req.params;
     const files = req.files;
     const paths = files.map((file) => file.path);
-    const imageDatas = await addImages(folder1, folder2, paths);
+    const imageDatas = await addImages("home", "carousel", paths);
     if (imageDatas.error) {
       return res.status(500).json({ message: imageDatas.error });
     }

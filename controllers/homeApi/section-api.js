@@ -12,7 +12,6 @@ export const getSectionImages = async (req, res) => {
 
 export const updateSectionImage = async (req, res) => {
   try {
-    const { folder1, folder2 = "" } = req.params;
     const { title, id, publicID = "" } = req.query;
 
     const filepath = req.file?.path;
@@ -22,8 +21,8 @@ export const updateSectionImage = async (req, res) => {
 
     const trimmedPublicID = publicID.replace("Pai/views/home/sections/", "");
     const imageData = await updateImage(
-      folder1,
-      folder2,
+      "home",
+      "sections",
       filepath,
       trimmedPublicID
     );

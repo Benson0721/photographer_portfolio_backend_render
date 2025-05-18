@@ -12,12 +12,11 @@ export const getAboutImages = async (req, res) => {
 
 export const updateAboutImage = async (req, res) => {
   try {
-    const { folder1 } = req.params;
     const { publicID, id } = req.query;
     const filepath = req.file.path;
     const filterPublicID = publicID.replace("Pai/views/about/", "");
     const imageData = await updateImage(
-      folder1,
+      "about",
       undefined,
       filepath,
       filterPublicID

@@ -6,4 +6,6 @@ import { checkAuth } from "../utils/checkAuth.js";
 import express from "express";
 const router = express.Router();
 
-router.route("/front").get(getFrontImages).put(checkAuth, updateFrontImage);
+router.route("/").get(getFrontImages).put(checkAuth, updateFrontImage);
+
+export { router };
