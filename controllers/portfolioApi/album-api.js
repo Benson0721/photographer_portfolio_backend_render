@@ -9,7 +9,7 @@ export const getAlbumImages = async (req, res) => {
   try {
     const { category } = req.query;
     if (category) {
-      const albumImages = await AlbumImage.find({ category: category });
+      const albumImages = await AlbumImage.find({});
       if (!albumImages) {
         return res.status(404).json({ message: "No images found" });
       }

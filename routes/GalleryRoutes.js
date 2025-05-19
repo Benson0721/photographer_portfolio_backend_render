@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getGalleryImages,
-  addGalleryImage,
+  addGalleryImages,
   deleteGalleryImage,
 } from "../controllers/portfolioApi/gallery-api.js";
 import multer from "multer";
@@ -12,7 +12,7 @@ const router = express.Router();
 router
   .route("/")
   .get(getGalleryImages)
-  .post(checkAuth, upload.single("image"), addGalleryImage)
+  .post(checkAuth, upload.array("image"), addGalleryImages)
   .delete(checkAuth, deleteGalleryImage);
 
 export { router };

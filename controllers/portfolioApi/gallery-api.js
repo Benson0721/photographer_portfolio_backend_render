@@ -8,8 +8,7 @@ import {
 export const getGalleryImages = async (req, res) => {
   try {
     const { category } = req.query;
-    console.log("後端");
-    console.log(category);
+
     if (category) {
       const galleryImages = await GalleryImage.find({ category: category });
       if (!galleryImages) {
@@ -29,23 +28,33 @@ export const getGalleryImages = async (req, res) => {
   }
 };
 
-export const addGalleryImage = async (req, res) => {
+export const addGalleryImages = async (req, res) => {
   try {
-    const { category, notes } = req.query;
+    const { category } = req.query;
 
-    const filepath = req.file.path;
+    const paths = req.files.map((file) => file.path);
+    const imageDatas = await addImages("portfolio", category, paths);
 
-    const imageData = await addImages("portfolio", category, filepath);
-    if (imageData.error) {
-      return res.status(500).json({ message: imageData.error });
+    if (imageDatas.error) {
+      return res.status(500).json({ message: imageDatas.error });
     }
-    const newGalleryImage = new GalleryImage({
-      category,
-      notes,
-      imageURL: imageData.secure_url,
-      public_id: imageData.public_id,
-    });
-    await newGalleryImage.save();
+    if (!Array.isArray(imageDatas)) {
+      const newGalleryImage = new GalleryImage({
+        category,
+        imageURL: imageDatas.secure_url,
+        public_id: imageDatas.public_id,
+      });
+      await newGalleryImage.save();
+    } else {
+      imageDatas.map(async (data) => {
+        const newGalleryImage = new GalleryImage({
+          category,
+          imageURL: data.secure_url,
+          public_id: data.public_id,
+        });
+        await newGalleryImage.save();
+      });
+    }
     res.status(200).json({ message: "新增圖片成功!" });
   } catch (error) {
     res.status(500).json({ message: error.message });

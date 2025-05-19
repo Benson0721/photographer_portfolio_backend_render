@@ -8,7 +8,6 @@ const GalleryImageSchema = new Schema({
   },
   notes: {
     type: String,
-    required: true,
   },
   imageURL: {
     type: String,
@@ -16,6 +15,7 @@ const GalleryImageSchema = new Schema({
   },
   public_id: {
     type: String,
+    required: true,
   },
   createdAt: {
     type: Date,
