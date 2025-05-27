@@ -1,7 +1,6 @@
 import { DisplayImage } from "../../models/DisplayImageSchema.js";
 import { addImages, deleteImages } from "../cloudinaryApi/img-api.js";
 
-
 export const getDisplayImages = async (req, res) => {
   try {
     const { topicID } = req.query;
@@ -19,6 +18,12 @@ export const addDisplayImages = async (req, res) => {
     const files = req.files;
     const paths = files.map((file) => file.path);
     const imageDatas = await addImages("portfolio", "display", paths);
+    imageDatas.map((data) => {
+      data.secure_url = data.secure_url.replace(
+        "/upload/",
+        "/upload/f_auto,q_auto,w_1440/"
+      );
+    });
     if (imageDatas.error) {
       return res.status(500).json({ message: imageDatas.error });
     }

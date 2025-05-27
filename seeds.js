@@ -1,6 +1,9 @@
 import { connectToDB } from "./mongoDB.js";
 import path from "path";
 import { PortfolioFrontImage } from "./models/PortfolioFrontImageSchema.js";
+import { GalleryImage } from "./models/GalleryImageSchema.js";
+import { AlbumImage } from "./models/AlbumImageSchema.js";
+import { DisplayImage } from "./models/DisplayImageSchema.js";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import dotenv from "dotenv";
@@ -10,7 +13,7 @@ const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV !== "production") {
   // 動態解析 .env 的絕對路徑
-  const envPath = path.resolve(__dirname, "../.env");
+  const envPath = path.resolve(__dirname, ".env");
   console.log("Loading .env from:", envPath);
 
   // 檢查 .env 檔案是否存在
@@ -67,11 +70,16 @@ const newImages = [
 
 async function seedImages() {
   try {
-    await PortfolioFrontImage.deleteMany();
-    await PortfolioFrontImage.insertMany(newImages);
-    console.log("PortfolioFrontImage seeded successfully");
+    const findedImages = await GalleryImage.find({});
+    findedImages.map((image) => {
+      image.imageURL = image.imageURL.replace(
+        "/upload/",
+        "/upload/f_auto,q_auto,w_1440/"
+      );
+      image.save();
+    });
   } catch (error) {
-    console.error("Error seeding PortfolioFrontImage:", error);
+    console.error("Error seeding DisplayImage:", error);
   }
 }
 

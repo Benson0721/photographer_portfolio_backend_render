@@ -34,6 +34,11 @@ export const addAlbumImage = async (req, res) => {
     const filepath = req.file.path;
 
     const imageData = await addImages("portfolio", category, filepath);
+    imageData.secure_url = imageData.secure_url.replace(
+      "/upload/",
+      "/upload/f_auto,q_auto,w_1440/"
+    );
+
     if (imageData.error) {
       return res.status(500).json({ message: imageData.error });
     }

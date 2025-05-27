@@ -35,6 +35,13 @@ export const addGalleryImages = async (req, res) => {
     const paths = req.files.map((file) => file.path);
     const imageDatas = await addImages("portfolio", category, paths);
 
+    imageDatas.map((data) => {
+      data.secure_url = data.secure_url.replace(
+        "/upload/",
+        "/upload/f_auto,q_auto,w_1440/"
+      );
+    });
+
     if (imageDatas.error) {
       return res.status(500).json({ message: imageDatas.error });
     }

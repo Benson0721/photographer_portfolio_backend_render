@@ -30,6 +30,10 @@ export const updateSectionImage = async (req, res) => {
     if (imageData.error) {
       return res.status(500).json({ message: imageData.error });
     }
+    imageData.secure_url = imageData.secure_url.replace(
+      "/upload/",
+      "/upload/f_auto,q_auto,w_1440/"
+    );
 
     await SectionImage.findByIdAndUpdate(
       id,
@@ -59,7 +63,6 @@ export const updateSectionName = async (req, res) => {
 
 export const adjustOffsetY = async (req, res) => {
   try {
-
     const { id, offsetY } = req.body;
 
     await SectionImage.findByIdAndUpdate(id, { offsetY }, { new: true });
