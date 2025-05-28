@@ -75,8 +75,6 @@ app.use(
   })
 );
 
-app.options("*", cors()); // 這行放在所有 route 之前
-
 const sessionConfig = {
   store,
   name: "session",
