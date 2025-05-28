@@ -6,6 +6,7 @@ import { GalleryImage } from "./models/GalleryImageSchema.js";
 import { AlbumImage } from "./models/AlbumImageSchema.js";
 import { DisplayImage } from "./models/DisplayImageSchema.js";
 import { AboutMe } from "./models/AboutMeSchema.js";
+import { SectionImage } from "./models/SectionImageSchema.js";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import dotenv from "dotenv";
@@ -72,15 +73,13 @@ const newImages = [
 
 async function seedImages() {
   try {
-    const newAboutme = new AboutMe({
-      userID: new mongoose.Types.ObjectId("67fb313f5a513165490bbc29"),
-      content:
-        "我是白承智，一位專注於人像、風景與建築攝影的創作者。我喜歡以機車旅行的方式探索城市與自然，穿梭在熟悉與未知之間，透過鏡頭記錄旅途中每一個觸動心弦的瞬間。無論是山林間的光影變化，還是建築結構與環境交織出的視覺節奏，我都試圖以攝影凝結時間，保留那些稍縱即逝的感動。我的攝影風格強調光影與情緒的流動，特別著重於捕捉被攝者最真實、放鬆的狀態，並透過構圖與色調營造空間氛圍。人像攝影中，我重視與被攝者的連結，期望影像能反映個體的溫度與故事；風景與建築中，我則試著挖掘結構與自然之間的對話，呈現靜謐與張力共存的畫面。若你對我的影像有共鳴，或希望合作拍攝，歡迎與我聯繫。期待透過影像與你分享我眼中的世界。",
-    });
-    await newAboutme.save();
-    console.log("AboutMe seeded successfully!");
+    await SectionImage.updateMany(
+      {},
+      { offsetY: { mobile: 0, tablet: 0, desktop: 0 } }
+    );
+    console.log("SectionImage seeded successfully!");
   } catch (error) {
-    console.error("Error seeding AboutMe:", error);
+    console.error("Error seeding SectionImage:", error);
   }
 }
 

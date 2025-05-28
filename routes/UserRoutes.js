@@ -18,17 +18,16 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    if (err) return next(err);
+    if (err) return res.status(500).json({ error: "Login failed" });
 
     if (!user) {
-      return res
-        .status(401)
-        .json({ error: info.message || "Invalid credentails" });
+      return res.status(401).json({ error: "Invalid credentails" });
     }
 
     req.login(user, (err) => {
-      if (err) return next(err);
-
+      if (err) {
+        return res.status(500).json({ error: "Login failed" });
+      }
       return res.status(200).json(user);
     });
   })(req, res, next);

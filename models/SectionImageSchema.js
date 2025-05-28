@@ -14,12 +14,9 @@ const SectionImageSchema = new Schema({
     type: String,
   },
   offsetY: {
-    type: Object,
-    default: {
-      mobile: 0,
-      tablet: 0,
-      desktop: 0,
-    },
+    mobile: { type: Number, default: 0 },
+    tablet: { type: Number, default: 0 },
+    desktop: { type: Number, default: 0 },
   },
 });
 
