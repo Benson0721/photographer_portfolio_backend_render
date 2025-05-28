@@ -118,7 +118,7 @@ const routes = [
 ];
 
 routes.forEach(({ path, router }) => {
-  app.use(prefix + path, cors(), router);
+  app.use(prefix + path, router);
 });
 
 app.get("/wakeup", (req, res) => {
