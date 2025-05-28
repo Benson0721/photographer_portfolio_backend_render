@@ -75,6 +75,8 @@ app.use(
   })
 );
 
+app.options("*", cors()); // 這行放在所有 route 之前
+
 const sessionConfig = {
   store,
   name: "session",
@@ -116,7 +118,7 @@ const routes = [
 ];
 
 routes.forEach(({ path, router }) => {
-  app.use(prefix + path, router);
+  app.use(prefix + path, cors(), router);
 });
 
 app.get("/wakeup", (req, res) => {
