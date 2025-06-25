@@ -29,11 +29,11 @@ export const getAlbumImages = async (req, res) => {
 
 export const addAlbumImage = async (req, res) => {
   try {
-    const { category, topic, notes } = req.query;
+    const { topic, notes } = req.query;
 
     const filepath = req.file.path;
 
-    const imageData = await addImages("portfolio", category, filepath);
+    const imageData = await addImages("portfolio", "album", filepath);
     imageData.secure_url = imageData.secure_url.replace(
       "/upload/",
       "/upload/f_auto,q_auto,w_1440/"
@@ -43,7 +43,6 @@ export const addAlbumImage = async (req, res) => {
       return res.status(500).json({ message: imageData.error });
     }
     const newAlbumImage = new AlbumImage({
-      category,
       topic,
       notes,
       imageURL: imageData.secure_url,
@@ -59,18 +58,18 @@ export const updateAlbumImage = async (req, res) => {
   try {
     const { newData } = req.body;
     const parsedData = JSON.parse(newData);
-    const { category, topic, notes, id, publicID } = parsedData;
-    const updateData = { category: category, topic: topic, notes: notes };
+    const { topic, notes, id, publicID } = parsedData;
+    const updateData = { topic: topic, notes: notes };
     if (req.file?.path) {
       const filepath = req.file.path;
       const filterPublicID = publicID.replace(
-        `${CLOUDINARYFOLDER}/views/portfolio/${category}/`,
+        `${CLOUDINARYFOLDER}/views/portfolio/album/`,
         ""
       );
 
       const imageData = await updateImage(
         "portfolio",
-        category,
+        "album",
         filepath,
         filterPublicID
       );

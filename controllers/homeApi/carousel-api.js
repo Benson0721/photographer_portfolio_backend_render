@@ -45,7 +45,6 @@ export const addCarouselImage = async (req, res) => {
     });
     res.status(200).json({ message: "新增圖片成功!" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };

@@ -57,10 +57,8 @@ export const updateAboutImage = async (req, res) => {
       },
       { new: true }
     );
-    console.log("更新圖片成功!");
     res.status(200).json({ message: "更新圖片成功!" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };

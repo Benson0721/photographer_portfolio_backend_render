@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const AlbumImageSchema = new Schema({
-  category: {
-    type: String,
-    required: true,
-  },
   topic: {
     type: String,
     required: true,
