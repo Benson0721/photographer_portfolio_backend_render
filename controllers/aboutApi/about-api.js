@@ -24,7 +24,7 @@ export const updateAboutMe = async (req, res) => {
   try {
     const { id } = req.query;
     const { content } = req.body;
-    const updatedAboutMe = await AboutMe.findOneAndUpdate(
+    await AboutMe.findOneAndUpdate(
       { userID: id },
       { content: content },
       { new: true }

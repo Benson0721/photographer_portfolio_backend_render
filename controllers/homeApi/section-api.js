@@ -30,8 +30,10 @@ export const updateSectionImage = async (req, res) => {
     if (imageData.error) {
       return res.status(500).json({ message: imageData.error });
     }
+
+
     imageData.secure_url = imageData.secure_url.replace(
-      "/upload/",
+      "/upload/f_auto,q_70/",
       "/upload/f_auto,q_auto,w_1440/"
     );
 

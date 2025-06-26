@@ -30,13 +30,16 @@ export const adjustCarouselOrder = async (req, res) => {
 
 export const addCarouselImage = async (req, res) => {
   try {
+
     const files = req.files;
+
     const paths = files.map((file) => file.path);
     const imageDatas = await addImages("home", "carousel", paths);
     if (imageDatas.error) {
       return res.status(500).json({ message: imageDatas.error });
     }
-    imageDatas.map(async (data) => {
+
+    imageDatas?.map(async (data) => {
       const image = new CarouselImage({
         imageURL: data.secure_url,
         public_id: data.public_id,

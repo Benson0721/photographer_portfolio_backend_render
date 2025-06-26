@@ -1,4 +1,6 @@
 import { AlbumImage } from "../../models/AlbumImageSchema.js";
+import { PortfolioFrontImage } from "../../models/PortfolioFrontImageSchema.js";
+import { DisplayImage } from "../../models/DisplayImageSchema.js";
 import {
   addImages,
   updateImage,
@@ -34,8 +36,9 @@ export const addAlbumImage = async (req, res) => {
     const filepath = req.file.path;
 
     const imageData = await addImages("portfolio", "album", filepath);
+
     imageData.secure_url = imageData.secure_url.replace(
-      "/upload/",
+      "/upload/f_auto,q_70/",
       "/upload/f_auto,q_auto,w_1440/"
     );
 
@@ -62,8 +65,8 @@ export const updateAlbumImage = async (req, res) => {
     const updateData = { topic: topic, notes: notes };
     if (req.file?.path) {
       const filepath = req.file.path;
-      const filterPublicID = publicID.replace(
-        `${CLOUDINARYFOLDER}/views/portfolio/album/`,
+      const filterPublicID = publicID?.replace(
+        `${process.env.CLOUDINARYFOLDER}/views/portfolio/album/`,
         ""
       );
 
@@ -73,7 +76,10 @@ export const updateAlbumImage = async (req, res) => {
         filepath,
         filterPublicID
       );
-
+      imageData.secure_url = imageData.secure_url.replace(
+        "/upload/f_auto,q_70/",
+        "/upload/f_auto,q_auto,w_1440/"
+      );
       if (imageData.error) {
         return res.status(500).json({ message: imageData.error });
       }
@@ -93,8 +99,33 @@ export const updateAlbumImage = async (req, res) => {
 export const deleteAlbumImage = async (req, res) => {
   try {
     const { publicId, id } = req.query;
-    await deleteImages(publicId);
-    await AlbumImage.findByIdAndDelete(id);
+    const displayImage = await DisplayImage.find({ topicID: id }); //刪除的album中有displayImage
+    if (displayImage) {
+      const deleteImagesPublicIDs = [];
+      displayImage.forEach((image) => {
+        deleteImagesPublicIDs.push(image.public_id);
+      });
+      deleteImagesPublicIDs.push(publicId);
+      await deleteImages(deleteImagesPublicIDs);
+    } else {
+      await deleteImages(publicId);
+    }
+
+    const deletedImage = await AlbumImage.findByIdAndDelete(id, {
+      new: true,
+    });
+    await DisplayImage.deleteMany({ topicID: id });
+
+    const frontImage = await PortfolioFrontImage.find({ category: "Album" }); //刪除的album剛好是封面圖片=>替換
+    if (frontImage[0]?.public_id === deletedImage?.public_id) {
+      const albumImages = await AlbumImage.find({});
+      const newFrontImage = albumImages[0];
+      await PortfolioFrontImage.findByIdAndUpdate(frontImage[0]._id, {
+        imageURL: newFrontImage.imageURL,
+        public_id: newFrontImage.public_id,
+      });
+    }
+
     res.json({ message: "刪除成功!" });
   } catch (error) {
     res.status(500).json({ message: error.message });

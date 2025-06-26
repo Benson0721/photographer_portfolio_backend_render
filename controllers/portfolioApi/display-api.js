@@ -18,16 +18,16 @@ export const addDisplayImages = async (req, res) => {
     const files = req.files;
     const paths = files.map((file) => file.path);
     const imageDatas = await addImages("portfolio", "display", paths);
-    imageDatas.map((data) => {
-      data.secure_url = data.secure_url.replace(
-        "/upload/",
-        "/upload/f_auto,q_auto,w_1440/"
-      );
-    });
+
     if (imageDatas.error) {
       return res.status(500).json({ message: imageDatas.error });
     }
+
     if (!Array.isArray(imageDatas)) {
+      imageDatas.secure_url = imageDatas.secure_url.replace(
+        "/upload/f_auto,q_70/",
+        "/upload/f_auto,q_auto,w_1440/"
+      );
       const image = new DisplayImage({
         imageURL: imageDatas.secure_url,
         public_id: imageDatas.public_id,
@@ -36,6 +36,10 @@ export const addDisplayImages = async (req, res) => {
       await image.save();
     } else {
       imageDatas.map(async (data) => {
+        data.secure_url = data.secure_url.replace(
+          "/upload/f_auto,q_70/",
+          "/upload/f_auto,q_auto,w_1440/"
+        );
         const image = new DisplayImage({
           imageURL: data.secure_url,
           public_id: data.public_id,
@@ -56,6 +60,7 @@ export const deleteDisplayImage = async (req, res) => {
   }
   try {
     const { publicId, id } = req.query;
+
     await deleteImages(publicId);
 
     await DisplayImage.findOneAndDelete({

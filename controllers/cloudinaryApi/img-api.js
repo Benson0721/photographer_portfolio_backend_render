@@ -1,8 +1,10 @@
 import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const CLOUDINARYFOLDER = process.env.CLOUDINARYFOLDER;
+
 
 export const updateImage = async (
   folder1,
@@ -24,7 +26,7 @@ export const updateImage = async (
     const result = await cloudinary.uploader.upload(filePath, options);
     result.secure_url = result.secure_url.replace(
       "/upload/",
-      "/upload/f_auto,q_80/"
+      "/upload/f_auto,q_70/"
     );
     return result;
   } catch (error) {
@@ -38,36 +40,50 @@ export const addImages = async (folder1, folder2 = "", filePath) => {
       folder: `${CLOUDINARYFOLDER}/views/${folder1}/${folder2}`,
       resource_type: "image",
     };
+
     if (!Array.isArray(filePath)) {
       const result = await cloudinary.uploader.upload(filePath, options);
       result.secure_url = result.secure_url.replace(
         "/upload/",
-        "/upload/f_auto,q_80/"
+        "/upload/f_auto,q_70/"
       );
+ 
       return result;
     } else {
       const uploadPromises = filePath.map(async (path) => {
         const result = await cloudinary.uploader.upload(path, options);
         result.secure_url = result.secure_url.replace(
           "/upload/",
-          "/upload/f_auto,q_80/"
+          "/upload/f_auto,q_70/"
         );
         return result;
       });
       const results = await Promise.all(uploadPromises); //等待所有上傳「結束後統一回報」
+
       return results;
     }
   } catch (error) {
-    return { error: error.message };
+    return { error: error };
   }
 };
 
 export const deleteImages = async (publicId) => {
   try {
-    const result = await cloudinary.uploader.destroy(publicId, {
-      resource_type: "image",
-    });
-    return result;
+    if (!Array.isArray(publicId)) {
+      const result = await cloudinary.uploader.destroy(publicId, {
+        resource_type: "image",
+      });
+      return result;
+    } else {
+      const deletePromises = publicId.map(async (id) => {
+        const result = await cloudinary.uploader.destroy(id, {
+          resource_type: "image",
+        });
+        return result;
+      });
+      const results = await Promise.all(deletePromises); //等待所有刪除「結束後統一回報」
+      return results;
+    }
   } catch (error) {
     return { error: error.message };
   }
