@@ -86,11 +86,11 @@ export const updateAlbumImage = async (req, res) => {
       updateData.imageURL = imageData.secure_url;
     }
 
-    await AlbumImage.findByIdAndUpdate(id, updateData, {
+    const updatedImage = await AlbumImage.findByIdAndUpdate(id, updateData, {
       new: true,
     });
 
-    res.status(200).json({ message: "更新資料成功!" });
+    res.status(200).json({ updatedImage, message: "更新資料成功!" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
